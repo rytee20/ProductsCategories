@@ -5,14 +5,14 @@ from pyspark.sql.functions import lit
 def Connection():
     spark = SparkSession.builder \
         .appName("Read from PostgreSQL") \
-        .config("spark.driver.extraClassPath", "C:/Users/user/Downloads/postgresql-42.7.3.jar") \
+        .config("spark.driver.extraClassPath", "/path/to/postgresql-driver.jar") \
         .getOrCreate()
     
     db = {
         "driver": "org.postgresql.Driver",
-        "url": "jdbc:postgresql://localhost:5432/products_categories_db",
-        "user": "postgres",
-        "password": "qwerty22"
+        "url": "jdbc:postgresql://your_host:your_port/your_database,
+        "user": "user",
+        "password": "password"
     }
 
     return spark, db
@@ -49,7 +49,6 @@ if __name__ == '__main__':
     df_poducts = Read_Data(spark, db_properties, "products")
     df_categories = Read_Data(spark, db_properties, "categories")
     df_product_categories = Read_Data(spark, db_properties, "product_categories")
-
 
     result_df, product_category_df, products_with_no_category_df = Product_Category(df_poducts, df_categories, df_product_categories)
 
